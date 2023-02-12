@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>API Practice Project: Fetch Inspirational Quotes</h2>
+    
+    <form onsubmit ="fetchQuote(); return false">
+        <!-- Must have API key purchased with https://zenquotes.io/ in order for it to work-->
+        <label for="apiKey"> Type in your API key to continue:</label>
+        <input type="password" id="apiKey" required>
+        <button type="submit">Get Your Inspiration!</button>
+    </form>
+
+    <div>
+        <br> Inspirational quotes provided by <a href="https://zenquotes.io/" target="_blank">ZenQuotes API</a> <br> <br>
+    </div>
+
+    <div id="quoteContainer"></div>
+
+    <script type="text/javascript">
+
+        async function fetchQuote() {
+          
+            const apiKey = document.getElementById("apiKey").value;
+            const apiURL = `https://zenquotes.io/api/quotes/${apiKey}`;
+
+            // https://docs.zenquotes.io/zenquotes-documentation/#call-quotes
+            // Javascript Code Example
+            const response = await fetch(apiURL);
+            const quote = await response.json();
+
+            // Adding Images from JSON file to HTML with JavaScript:
+            // https://stackoverflow.com/questions/64895965/how-can-i-fetch-from-an-json-file-and-display-some-pictures
+
+            // Adding Line Breaks to HTML with JavaScript:
+            // https://stackoverflow.com/questions/58957239/how-to-add-a-line-break-in-javascript
+
+            for (let i = 0; i < quote.length; i++) {
+                // Adding Images from JSON file to HTML with JavaScript
+                var img = document.createElement("img");
+                img.src = quote[i].i;
+                document.getElementById("quoteContainer").appendChild(img);
+
+                // Adding Line Breaks to HTML with JavaScript
+                document.getElementById("quoteContainer").appendChild(document.createElement("br"));
+
+                document.getElementById("quoteContainer").innerHTML += JSON.stringify(quote[i].q, null, 2);
+
+                // Adding Line Breaks to HTML with JavaScript
+                document.getElementById("quoteContainer").appendChild(document.createElement("br"));
+
+                document.getElementById("quoteContainer").innerHTML += "~ " + JSON.stringify(quote[i].a, null, 2);
+
+                // Adding Line Breaks to HTML with JavaScript
+                document.getElementById("quoteContainer").appendChild(document.createElement("br"));
+                document.getElementById("quoteContainer").appendChild(document.createElement("br"));
+            }
+            
+        }
+        
+    </script>
+</body>
+</html>
